@@ -9,7 +9,7 @@ on:
     types: [numdraw-updated, crossstitch-updated]
 
 permissions:
-  contents: read
+  contents: write   # write needed to commit the bumped submodule pointer
   pages: write
   id-token: write
 
@@ -28,6 +28,31 @@ jobs:
           submodules: recursive
           fetch-depth: 0
           token: ${{ secrets.SUBMODULE_TOKEN }}
+
+      # When a service repo's CI dispatches here, pull its latest commit and
+      # record the new pointer so the repo stays in sync automatically.
+      - name: Auto-bump submodule pointer
+        if: github.event_name == 'repository_dispatch'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Use GITHUB_TOKEN (not SUBMODULE_TOKEN) to push back to HobbyMate
+          git remote set-url origin \
+            "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
+
+          EVENT="${{ github.event.action }}"
+          if   [ "$EVENT" = "numdraw-updated"     ]; then
+            git submodule update --remote services/NumDraw
+          elif [ "$EVENT" = "crossstitch-updated" ]; then
+            git submodule update --remote services/Cross_Stitch
+          fi
+
+          git add services/
+          # Commit only if something actually changed
+          git diff --staged --quiet || \
+            git commit -m "chore(ci): auto-bump submodule on ${EVENT} [skip ci]"
+          git push
 
       - name: Set up Node.js (for NumDraw TypeScript build)
         uses: actions/setup-node@v4
