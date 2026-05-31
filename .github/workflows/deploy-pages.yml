@@ -37,10 +37,7 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Use GITHUB_TOKEN (not SUBMODULE_TOKEN) to push back to HobbyMate
-          git remote set-url origin \
-            "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
-
+          # Step 1: update the submodule (SUBMODULE_TOKEN is still active via extraheader)
           EVENT="${{ github.event.action }}"
           if   [ "$EVENT" = "numdraw-updated"     ]; then
             git submodule update --remote services/NumDraw
@@ -49,9 +46,17 @@ jobs:
           fi
 
           git add services/
-          # Commit only if something actually changed
-          git diff --staged --quiet || \
-            git commit -m "chore(ci): auto-bump submodule on ${EVENT} [skip ci]"
+          # Nothing changed — skip commit and push
+          git diff --staged --quiet && exit 0
+
+          git commit -m "chore(ci): auto-bump submodule on ${EVENT} [skip ci]"
+
+          # Step 2: switch credentials to GITHUB_TOKEN before pushing.
+          # actions/checkout registered SUBMODULE_TOKEN as an HTTP extraheader
+          # for all github.com requests; unset it so our URL-embedded token wins.
+          git config --unset-all http.https://github.com/.extraheader || true
+          git remote set-url origin \
+            "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}"
           git push
 
       - name: Set up Node.js (for NumDraw TypeScript build)
