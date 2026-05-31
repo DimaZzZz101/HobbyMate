@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HobbyMate – Craft Tools</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared/theme.css">
+  <style>
+    .landing-hero {
+      text-align: center;
+      padding: var(--hm-space-16) var(--hm-space-6) var(--hm-space-12);
+    }
+    .landing-hero__eyebrow {
+      display: inline-block;
+      background-color: rgba(61,107,94,0.12);
+      color: var(--hm-color-primary);
+      font-size: var(--hm-font-size-sm);
+      font-weight: var(--hm-font-weight-semibold);
+      padding: var(--hm-space-1) var(--hm-space-3);
+      border-radius: var(--hm-radius-full);
+      margin-bottom: var(--hm-space-4);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .landing-hero__title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: var(--hm-font-weight-bold);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: var(--hm-color-text);
+      margin: 0 0 var(--hm-space-4);
+    }
+    .landing-hero__title span {
+      color: var(--hm-color-primary);
+    }
+    .landing-hero__subtitle {
+      font-size: var(--hm-font-size-md);
+      color: var(--hm-color-text-muted);
+      max-width: 480px;
+      margin: 0 auto var(--hm-space-8);
+      line-height: 1.6;
+    }
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--hm-space-6);
+      max-width: 840px;
+      margin: 0 auto;
+    }
+    .service-card {
+      background-color: var(--hm-color-surface);
+      border: 1px solid var(--hm-color-border);
+      border-radius: var(--hm-radius-xl);
+      box-shadow: var(--hm-shadow-sm);
+      padding: var(--hm-space-8);
+      display: flex;
+      flex-direction: column;
+      gap: var(--hm-space-4);
+      text-decoration: none;
+      color: inherit;
+      transition: box-shadow var(--hm-transition-normal),
+                  transform var(--hm-transition-normal);
+    }
+    .service-card:hover {
+      box-shadow: var(--hm-shadow-xl);
+      transform: translateY(-3px);
+    }
+    .service-card__icon {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--hm-radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+    }
+    .service-card__icon--numdraw {
+      background-color: rgba(217,121,65,0.15);
+    }
+    .service-card__icon--crossstitch {
+      background-color: rgba(61,107,94,0.15);
+    }
+    .service-card__title {
+      font-size: var(--hm-font-size-lg);
+      font-weight: var(--hm-font-weight-semibold);
+      color: var(--hm-color-text);
+      margin: 0;
+    }
+    .service-card__desc {
+      font-size: var(--hm-font-size-sm);
+      color: var(--hm-color-text-muted);
+      line-height: 1.6;
+      flex: 1;
+    }
+    .service-card__cta {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--hm-space-2);
+      font-size: var(--hm-font-size-sm);
+      font-weight: var(--hm-font-weight-medium);
+      color: var(--hm-color-primary);
+    }
+    .service-card__cta::after {
+      content: '→';
+      transition: transform var(--hm-transition-fast);
+    }
+    .service-card:hover .service-card__cta::after {
+      transform: translateX(4px);
+    }
+
+    /* Header: on the landing page itself, nav points to sub-paths */
+    .hm-header .hm-nav__link[href="numdraw/index.html"],
+    .hm-header .hm-nav__link[href="crossstitch/index.html"] {
+      /* relative paths for the landing page */
+    }
+  </style>
+</head>
+<body>
+  <header class="hm-header" role="banner">
+    <div class="hm-header__inner">
+      <a href="index.html" class="hm-header__logo" aria-label="HobbyMate home">
+        <div class="hm-header__logo-icon" aria-hidden="true">🧵</div>
+        <span class="hm-header__logo-text">Hobby<span>Mate</span></span>
+      </a>
+      <div class="hm-header__divider" aria-hidden="true"></div>
+      <nav class="hm-nav" aria-label="Main navigation">
+        <a href="numdraw/index.html" class="hm-nav__link" id="hm-nav-numdraw">
+          <span class="hm-nav__link-icon" aria-hidden="true">🎨</span>
+          <span class="hm-nav__link-label">Paint by Numbers</span>
+        </a>
+        <a href="crossstitch/index.html" class="hm-nav__link" id="hm-nav-crossstitch">
+          <span class="hm-nav__link-icon" aria-hidden="true">✂️</span>
+          <span class="hm-nav__link-label">Cross Stitch</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="hm-page">
+    <section class="landing-hero">
+      <span class="landing-hero__eyebrow">Free browser tools</span>
+      <h1 class="landing-hero__title">Turn any photo<br>into a <span>craft pattern</span></h1>
+      <p class="landing-hero__subtitle">
+        Upload an image and instantly generate a paint-by-numbers sheet
+        or a cross-stitch pattern — no install, no account required.
+      </p>
+
+      <div class="service-grid">
+        <a href="numdraw/index.html" class="service-card">
+          <div class="service-card__icon service-card__icon--numdraw" aria-hidden="true">🎨</div>
+          <h2 class="service-card__title">Paint by Numbers</h2>
+          <p class="service-card__desc">
+            Converts any photo into a numbered SVG paint-by-numbers template.
+            Choose number of colors, restrict to a palette, and download print-ready SVG or PNG.
+          </p>
+          <span class="service-card__cta">Open tool</span>
+        </a>
+
+        <a href="crossstitch/index.html" class="service-card">
+          <div class="service-card__icon service-card__icon--crossstitch" aria-hidden="true">✂️</div>
+          <h2 class="service-card__title">Cross Stitch</h2>
+          <p class="service-card__desc">
+            Generates a cross-stitch embroidery pattern with DMC, Anchor, Cosmo or Gamma thread matching.
+            Exports colored, black &amp; white, and legend SVGs.
+          </p>
+          <span class="service-card__cta">Open tool</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="hm-footer" role="contentinfo">
+    <div class="hm-footer__inner">
+      <span>
+        <a href="https://github.com/DimaZzZz101/HobbyMate">HobbyMate</a>
+        &nbsp;·&nbsp;
+        <a href="https://github.com/DimaZzZz101/NumDraw">NumDraw</a>
+        &nbsp;·&nbsp;
+        <a href="https://github.com/DimaZzZz101/Cross_Stitch">Cross Stitch</a>
+      </span>
+      <span>
+        MIT License &nbsp;·&nbsp;
+        Paint by Numbers based on
+        <a href="https://github.com/drake7707/paintbynumbersgenerator">drake7707</a>
+        and
+        <a href="https://github.com/loganpowell/paintbynumbersgenerator">loganpowell</a>
+      </span>
+    </div>
+  </footer>
+</body>
+</html>

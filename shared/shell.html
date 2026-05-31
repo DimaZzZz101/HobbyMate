@@ -1,0 +1,78 @@
+<!-- =============================================================================
+     HobbyMate – App Shell Fragment
+     Canonical source: HobbyMate/shared/shell.html
+     Vendored copy in each service. Re-sync from here when the shell changes.
+
+     Usage:
+       • Copy the HEADER and FOOTER blocks into your service's index.html.
+       • Replace CURRENT_SERVICE_ID with "numdraw" or "crossstitch" to
+         activate the correct nav link (adds hm-nav__link--active class).
+       • Keep the Google Fonts <link> in your <head>.
+       • Load theme.css BEFORE your service-specific styles.
+     ============================================================================= -->
+
+<!-- ── Google Fonts (place in <head>) ────────────────────────────────────────── -->
+<!--
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+-->
+
+<!-- ── Site header ───────────────────────────────────────────────────────────── -->
+<header class="hm-header" role="banner">
+  <div class="hm-header__inner">
+    <a href="../index.html" class="hm-header__logo" aria-label="HobbyMate home">
+      <div class="hm-header__logo-icon" aria-hidden="true">🧵</div>
+      <span class="hm-header__logo-text">Hobby<span>Mate</span></span>
+    </a>
+
+    <div class="hm-header__divider" aria-hidden="true"></div>
+
+    <nav class="hm-nav" aria-label="Main navigation">
+      <a href="../numdraw/index.html"
+         class="hm-nav__link"
+         id="hm-nav-numdraw">
+        <span class="hm-nav__link-icon" aria-hidden="true">🎨</span>
+        <span class="hm-nav__link-label">Paint by Numbers</span>
+      </a>
+      <a href="../crossstitch/index.html"
+         class="hm-nav__link"
+         id="hm-nav-crossstitch">
+        <span class="hm-nav__link-icon" aria-hidden="true">✂️</span>
+        <span class="hm-nav__link-label">Cross Stitch</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<!-- ── Site footer ───────────────────────────────────────────────────────────── -->
+<footer class="hm-footer" role="contentinfo">
+  <div class="hm-footer__inner">
+    <span>
+      <a href="https://github.com/DimaZzZz101/HobbyMate">HobbyMate</a>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/DimaZzZz101/NumDraw">NumDraw</a>
+      &nbsp;·&nbsp;
+      <a href="https://github.com/DimaZzZz101/Cross_Stitch">Cross Stitch</a>
+    </span>
+    <span>
+      MIT License
+      &nbsp;·&nbsp;
+      Paint by Numbers based on
+      <a href="https://github.com/drake7707/paintbynumbersgenerator">drake7707/paintbynumbersgenerator</a>
+      and
+      <a href="https://github.com/loganpowell/paintbynumbersgenerator">loganpowell fork</a>
+    </span>
+  </div>
+</footer>
+
+<!-- ── Active nav link script (inline, no deps) ──────────────────────────────── -->
+<!--
+  Optionally drop this <script> near </body> in each service page.
+  Set CURRENT_SERVICE to "numdraw" or "crossstitch".
+  <script>
+    var CURRENT_SERVICE = "numdraw"; // or "crossstitch"
+    var el = document.getElementById("hm-nav-" + CURRENT_SERVICE);
+    if (el) el.classList.add("hm-nav__link--active");
+  </script>
+-->

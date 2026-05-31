@@ -1,0 +1,103 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [master, main]
+  # Allow manual triggers and dispatches from service repos
+  workflow_dispatch:
+  repository_dispatch:
+    types: [numdraw-updated, crossstitch-updated]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout with submodules
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+          token: ${{ secrets.SUBMODULE_TOKEN }}
+
+      - name: Set up Node.js (for NumDraw TypeScript build)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: "npm"
+          cache-dependency-path: services/NumDraw/package-lock.json
+
+      - name: Install NumDraw dependencies
+        run: npm ci
+        working-directory: services/NumDraw
+
+      - name: Compile NumDraw TypeScript
+        run: npm run build
+        working-directory: services/NumDraw
+
+      # ── Assemble static dist/ ──────────────────────────────────────────
+      - name: Create dist structure
+        run: |
+          mkdir -p dist/numdraw
+          mkdir -p dist/crossstitch
+
+      # Landing page + shared assets
+      - name: Copy landing page and shared assets
+        run: |
+          cp index.html dist/index.html
+          cp -r shared   dist/shared
+
+      # NumDraw: copy all web assets (index.html, scripts/, styles/, fonts/)
+      - name: Copy NumDraw web assets
+        run: |
+          cp  services/NumDraw/index.html  dist/numdraw/index.html
+          cp -r services/NumDraw/scripts   dist/numdraw/scripts
+          cp -r services/NumDraw/styles    dist/numdraw/styles
+          cp -r services/NumDraw/fonts     dist/numdraw/fonts
+
+      # Cross_Stitch: copy web UI + Python source + colour_maps (Pyodide loads them)
+      - name: Copy Cross_Stitch web frontend
+        run: |
+          cp -r services/Cross_Stitch/web          dist/crossstitch
+          cp -r services/Cross_Stitch/modules      dist/crossstitch/modules
+          cp -r services/Cross_Stitch/colour_maps  dist/crossstitch/colour_maps
+
+      # Fix relative paths in index.html files to work under /HobbyMate/
+      # (HobbyMate landing page links to numdraw/ and crossstitch/)
+      - name: Fix landing page asset path (shared/)
+        run: |
+          sed -i 's|href="shared/theme.css"|href="shared/theme.css"|g' dist/index.html
+          sed -i 's|href="numdraw/index.html"|href="numdraw/index.html"|g' dist/index.html
+          sed -i 's|href="crossstitch/index.html"|href="crossstitch/index.html"|g' dist/index.html
+
+      - name: List dist
+        run: find dist -type f | sort
+
+      # ── Deploy ────────────────────────────────────────────────────────
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
