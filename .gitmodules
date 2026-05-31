@@ -1,0 +1,7 @@
+[submodule "services/NumDraw"]
+	path = services/NumDraw
+	url = https://github.com/DimaZzZz101/NumDraw
+
+[submodule "services/Cross_Stitch"]
+	path = services/Cross_Stitch
+	url = https://github.com/DimaZzZz101/Cross_Stitch
