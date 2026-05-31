@@ -68,21 +68,6 @@
       box-shadow: var(--hm-shadow-xl);
       transform: translateY(-3px);
     }
-    .service-card__icon {
-      width: 56px;
-      height: 56px;
-      border-radius: var(--hm-radius-lg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-    }
-    .service-card__icon--numdraw {
-      background-color: rgba(217,121,65,0.15);
-    }
-    .service-card__icon--crossstitch {
-      background-color: rgba(61,107,94,0.15);
-    }
     .service-card__title {
       font-size: var(--hm-font-size-lg);
       font-weight: var(--hm-font-weight-semibold);
@@ -122,17 +107,14 @@
   <header class="hm-header" role="banner">
     <div class="hm-header__inner">
       <a href="index.html" class="hm-header__logo" aria-label="HobbyMate home">
-        <div class="hm-header__logo-icon" aria-hidden="true">🧵</div>
         <span class="hm-header__logo-text">Hobby<span>Mate</span></span>
       </a>
       <div class="hm-header__divider" aria-hidden="true"></div>
       <nav class="hm-nav" aria-label="Main navigation">
         <a href="numdraw/index.html" class="hm-nav__link" id="hm-nav-numdraw">
-          <span class="hm-nav__link-icon" aria-hidden="true">🎨</span>
           <span class="hm-nav__link-label">Paint by Numbers</span>
         </a>
         <a href="crossstitch/index.html" class="hm-nav__link" id="hm-nav-crossstitch">
-          <span class="hm-nav__link-icon" aria-hidden="true">✂️</span>
           <span class="hm-nav__link-label">Cross Stitch</span>
         </a>
       </nav>
@@ -150,7 +132,6 @@
 
       <div class="service-grid">
         <a href="numdraw/index.html" class="service-card">
-          <div class="service-card__icon service-card__icon--numdraw" aria-hidden="true">🎨</div>
           <h2 class="service-card__title">Paint by Numbers</h2>
           <p class="service-card__desc">
             Converts any photo into a numbered SVG paint-by-numbers template.
@@ -160,7 +141,6 @@
         </a>
 
         <a href="crossstitch/index.html" class="service-card">
-          <div class="service-card__icon service-card__icon--crossstitch" aria-hidden="true">✂️</div>
           <h2 class="service-card__title">Cross Stitch</h2>
           <p class="service-card__desc">
             Generates a cross-stitch embroidery pattern with DMC, Anchor, Cosmo or Gamma thread matching.
