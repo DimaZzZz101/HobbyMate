@@ -65,9 +65,10 @@ jobs:
           cp -r services/NumDraw/fonts     dist/numdraw/fonts
 
       # Cross_Stitch: copy web UI + Python source + colour_maps (Pyodide loads them)
+      # Use web/. to copy the CONTENTS of web/ into dist/crossstitch/ (not web/ itself)
       - name: Copy Cross_Stitch web frontend
         run: |
-          cp -r services/Cross_Stitch/web          dist/crossstitch
+          cp -r services/Cross_Stitch/web/.        dist/crossstitch/
           cp -r services/Cross_Stitch/modules      dist/crossstitch/modules
           cp -r services/Cross_Stitch/colour_maps  dist/crossstitch/colour_maps
 
